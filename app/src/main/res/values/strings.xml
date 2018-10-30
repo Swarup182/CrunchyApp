@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">CrunchyApp</string>
+
+    <string name="selection_sample">Selection sample</string>
+    <string name="custom_style_sample">Custom style sample</string>
+    <string name="date_indicators_sample">Date indicators sample</string>
+    <string name="dialog_sample">Dialog</string>
+
+    <string name="single">Single</string>
+    <string name="multi">Multiple</string>
+    <string name="range">Range</string>
+    <string name="boundaries">Date boundaries</string>
+    <string name="selection_filter">Date selection filter</string>
+
+    <string name="move_to_date">Move to today</string>
+
+</resources>

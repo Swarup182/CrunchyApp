@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import ru.cleverpumpkin.calendar.CalendarDate
 import ru.cleverpumpkin.calendar.CalendarView
 import ru.cleverpumpkin.calendar.utils.getColorInt
@@ -75,31 +76,31 @@ class DateIndicatorsSampleFragment : Fragment() {
 
         repeat(10) {
             indicators += CalendarDateIndicator(
-                eventName = "Indicator #1",
+                eventName = "Event #1",
                 date = CalendarDate(calendar.time),
                 color = context.getColorInt(R.color.event_1_color)
             )
 
             indicators += CalendarDateIndicator(
-                eventName = "Indicator #2",
+                eventName = "Event #2",
                 date = CalendarDate(calendar.time),
                 color = context.getColorInt(R.color.event_2_color)
             )
 
             indicators += CalendarDateIndicator(
-                eventName = "Indicator #3",
+                eventName = "Event #3",
                 date = CalendarDate(calendar.time),
                 color = context.getColorInt(R.color.event_3_color)
             )
 
             indicators += CalendarDateIndicator(
-                eventName = "Indicator #4",
+                eventName = "Event #4",
                 date = CalendarDate(calendar.time),
                 color = context.getColorInt(R.color.event_4_color)
             )
 
             indicators += CalendarDateIndicator(
-                eventName = "Indicator #5",
+                eventName = "Event #5",
                 date = CalendarDate(calendar.time),
                 color = context.getColorInt(R.color.event_5_color)
             )
@@ -133,6 +134,10 @@ class DateIndicatorsSampleFragment : Fragment() {
             val event = getItem(position)
             view.findViewById<View>(R.id.color_view).setBackgroundColor(event.color)
             view.findViewById<TextView>(R.id.event_name_view).text = event.eventName
+
+            view.setOnClickListener {
+                Toast.makeText(context, event.eventName, Toast.LENGTH_SHORT).show()
+            }
 
             return view
         }

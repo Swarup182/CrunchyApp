@@ -14,4 +14,7 @@
 
     <string name="move_to_date">Move to today</string>
 
+    <string name="block_date">Block this day</string>
+    <string name="time_available">Set Time available</string>
+
 </resources>

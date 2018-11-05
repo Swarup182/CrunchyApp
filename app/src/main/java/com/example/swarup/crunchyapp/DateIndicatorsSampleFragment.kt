@@ -1,5 +1,7 @@
 package com.example.swarup.crunchyapp
 
+import android.annotation.SuppressLint
+import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,10 +13,12 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
+import kotlinx.android.synthetic.main.fragment_sample.*
 import ru.cleverpumpkin.calendar.CalendarDate
 import ru.cleverpumpkin.calendar.CalendarView
 import ru.cleverpumpkin.calendar.utils.getColorInt
 import java.util.*
+
 
 class DateIndicatorsSampleFragment : Fragment() {
 
@@ -28,6 +32,7 @@ class DateIndicatorsSampleFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_sample, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -63,6 +68,42 @@ class DateIndicatorsSampleFragment : Fragment() {
             }
         }
 
+
+
+        calendarView.onDateLongClickListener = { date ->
+
+            val builder = AlertDialog.Builder(context!!)
+            builder.setTitle("Choose")
+                .setItems(R.array.choices) { dialog, which ->
+                    if (which == 0) {
+                        Toast.makeText(context, "nth", Toast.LENGTH_SHORT).show()
+                    } else if (which == 1) {
+                        //Toast.makeText(context, "second one", Toast.LENGTH_SHORT).show()
+                        val mcurrentTime = Calendar.getInstance()
+                        val hour = mcurrentTime.get(Calendar.HOUR_OF_DAY)
+                        val minute = mcurrentTime.get(Calendar.MINUTE)
+                        val mTimePicker: TimePickerDialog
+                        mTimePicker = TimePickerDialog(
+                            context,
+                            TimePickerDialog.OnTimeSetListener { timePicker, selectedHour, selectedMinute ->
+                                tv_time_picker.text = selectedHour.toString() + ":" + selectedMinute
+                            },
+                            hour,
+                            minute,
+                            true
+                        )
+                        mTimePicker.setTitle("Select Time")
+                        mTimePicker.show()
+                    }
+
+                }
+
+            val choiceDialog = builder.create()
+
+            choiceDialog.show()
+
+        }
+
         if (savedInstanceState == null) {
             calendarView.setupCalendar(selectionMode = CalendarView.SelectionMode.NON)
         }
@@ -78,31 +119,36 @@ class DateIndicatorsSampleFragment : Fragment() {
             indicators += CalendarDateIndicator(
                 eventName = "Event #1",
                 date = CalendarDate(calendar.time),
-                color = context.getColorInt(R.color.event_1_color)
+                color = context.getColorInt(R.color.event_1_color),
+                eventTime = "10:30 - 11:45"
             )
 
             indicators += CalendarDateIndicator(
                 eventName = "Event #2",
                 date = CalendarDate(calendar.time),
-                color = context.getColorInt(R.color.event_2_color)
+                color = context.getColorInt(R.color.event_2_color),
+                eventTime = "15:00 - 16:45"
             )
 
             indicators += CalendarDateIndicator(
                 eventName = "Event #3",
                 date = CalendarDate(calendar.time),
-                color = context.getColorInt(R.color.event_3_color)
+                color = context.getColorInt(R.color.event_3_color),
+                eventTime = "1:30 - 2:45"
             )
 
             indicators += CalendarDateIndicator(
                 eventName = "Event #4",
                 date = CalendarDate(calendar.time),
-                color = context.getColorInt(R.color.event_4_color)
+                color = context.getColorInt(R.color.event_4_color),
+                eventTime = "16:30 - 16:45"
             )
 
             indicators += CalendarDateIndicator(
                 eventName = "Event #5",
                 date = CalendarDate(calendar.time),
-                color = context.getColorInt(R.color.event_5_color)
+                color = context.getColorInt(R.color.event_5_color),
+                eventTime = "17:30 - 18:45"
             )
 
             calendar.add(Calendar.DAY_OF_MONTH, 5)
@@ -114,7 +160,8 @@ class DateIndicatorsSampleFragment : Fragment() {
     class CalendarDateIndicator(
         override val date: CalendarDate,
         override val color: Int,
-        val eventName: String
+        val eventName: String,
+        val eventTime: String
 
     ) : CalendarView.DateIndicator
 
@@ -134,6 +181,7 @@ class DateIndicatorsSampleFragment : Fragment() {
             val event = getItem(position)
             view.findViewById<View>(R.id.color_view).setBackgroundColor(event.color)
             view.findViewById<TextView>(R.id.event_name_view).text = event.eventName
+            view.findViewById<TextView>(R.id.event_time_view).text = event.eventTime
 
             view.setOnClickListener {
                 Toast.makeText(context, event.eventName, Toast.LENGTH_SHORT).show()
